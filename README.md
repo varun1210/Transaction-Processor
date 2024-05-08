@@ -1,2 +1,3 @@
 # Transaction-Processor
-Transaction processor project using Event Sourcing
+Transaction processor app built using the following architecture:
+[Architecture](./Application_Architecture.jpeg)
