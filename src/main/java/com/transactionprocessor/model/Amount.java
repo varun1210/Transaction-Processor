@@ -18,5 +18,5 @@ public class Amount {
 
     @NotBlank
     private String debitOrCredit;
-    
+
 }

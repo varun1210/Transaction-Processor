@@ -16,9 +16,7 @@ public class CurrentApplicationExceptionHandler {
 
         if(exception instanceof BadRequestException) {
             return new Error(exception.getMessage(), ResponseCode.DECLINED.toString());
-        } else if (exception instanceof MethodArgumentNotValidException) {
-            return new Error("Request format invalid!", ResponseCode.DECLINED.toString());
-        } else if (exception instanceof ValidationException){
+        } else if (exception instanceof MethodArgumentNotValidException || exception instanceof ValidationException) {
             return new Error("Invalid request format!", ResponseCode.DECLINED.toString());
         } else if(exception instanceof NoResourceFoundException) {
             return new Error("No resource found!", ResponseCode.DECLINED.toString());
@@ -28,13 +26,13 @@ public class CurrentApplicationExceptionHandler {
     }
 
     @ExceptionHandler
-    public ResponseEntity<Error> exceptionHandler(Exception e) {
-        System.out.println(e.toString());
-        Error error = errorGenerator(e);
+    public ResponseEntity<Error> exceptionHandler(Exception exception) {
+        System.out.println(exception.toString());
+        Error error = errorGenerator(exception);
         HttpStatus httpStatusCode;
-        if (e instanceof BadRequestException) {
+        if (exception instanceof BadRequestException || exception instanceof MethodArgumentNotValidException || exception instanceof ValidationException) {
             httpStatusCode = HttpStatus.BAD_REQUEST;
-        } else if (e instanceof NoResourceFoundException) {
+        } else if (exception instanceof NoResourceFoundException) {
             httpStatusCode = HttpStatus.NOT_FOUND;
         } else {
             httpStatusCode = HttpStatus.INTERNAL_SERVER_ERROR;
