@@ -130,7 +130,6 @@ public class TransactionService {
             } else {
                 currentBalance = amount;
             }
-            userBalances.put(userId, currentBalance);
             return new LoadResponse(userId, messageId, String.valueOf(currentBalance));
         }
     }

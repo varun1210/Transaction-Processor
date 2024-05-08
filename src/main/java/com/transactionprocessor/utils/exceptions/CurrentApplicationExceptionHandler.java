@@ -4,6 +4,7 @@ import com.transactionprocessor.utils.responses.ResponseCode;
 import jakarta.validation.ValidationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
@@ -15,6 +16,8 @@ public class CurrentApplicationExceptionHandler {
 
         if(exception instanceof BadRequestException) {
             return new Error(exception.getMessage(), ResponseCode.DECLINED.toString());
+        } else if (exception instanceof MethodArgumentNotValidException) {
+            return new Error("Request format invalid!", ResponseCode.DECLINED.toString());
         } else if (exception instanceof ValidationException){
             return new Error("Invalid request format!", ResponseCode.DECLINED.toString());
         } else if(exception instanceof NoResourceFoundException) {
