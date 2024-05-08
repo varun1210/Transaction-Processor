@@ -33,7 +33,7 @@ public class TransactionController {
     @ResponseBody
     public ResponseEntity ping() {
         try {
-            return new ResponseEntity(new Ping(), HttpStatus.OK);
+            return new ResponseEntity<Ping>(new Ping(), HttpStatus.OK);
         } catch (Exception e) {
             return currentApplicationExceptionHandler.exceptionHandler(e);
         }
@@ -49,7 +49,7 @@ public class TransactionController {
         try {
             TransactionDTO transactionDTO = transactionService.generateTransactionDTO(authorizationRequest);
             AuthorizationResponse authorizationResponse = (AuthorizationResponse) transactionService.transactionHandler(transactionDTO);
-            return new ResponseEntity(authorizationResponse, HttpStatus.CREATED);
+            return new ResponseEntity<AuthorizationResponse>(authorizationResponse, HttpStatus.CREATED);
         } catch(Exception e) {
             return currentApplicationExceptionHandler.exceptionHandler(e);
         }
@@ -65,7 +65,7 @@ public class TransactionController {
         try {
             TransactionDTO transactionDTO = transactionService.generateTransactionDTO(loadRequest);
             LoadResponse loadResponse = (LoadResponse) transactionService.transactionHandler(transactionDTO);
-            return new ResponseEntity(loadResponse, HttpStatus.CREATED);
+            return new ResponseEntity<LoadResponse>(loadResponse, HttpStatus.CREATED);
         } catch(Exception e) {
             return currentApplicationExceptionHandler.exceptionHandler(e);
         }

@@ -25,14 +25,12 @@ import java.util.HashMap;
 public class TransactionService {
 
     private final EventService eventService;
-    private final CurrentApplicationExceptionHandler currentApplicationExceptionHandler;
 
     private final HashMap<String, BigDecimal> userBalances = new HashMap<String, BigDecimal>();
 
     @Autowired
     public TransactionService(EventService eventService, CurrentApplicationExceptionHandler currentApplicationExceptionHandler) {
         this.eventService = eventService;
-        this.currentApplicationExceptionHandler = currentApplicationExceptionHandler;
     }
 
     public TransactionDTO generateTransactionDTO(Request request) throws BadRequestException {
@@ -75,7 +73,6 @@ public class TransactionService {
     @Async
     public void authorizationEventHandler(AuthorizationEvent authorizationEvent) throws BadRequestException{
         String userId = authorizationEvent.getUserId();
-        String messageId = authorizationEvent.getMessageId();
         BigDecimal amount = authorizationEvent.getAmount();
         if (!userBalances.containsKey(userId)) {
             System.out.println("User not found!");
@@ -93,7 +90,6 @@ public class TransactionService {
     @Async
     public void loadEventHandler(LoadEvent loadEvent) throws BadRequestException{
         String userId = loadEvent.getUserId();
-        String messageId = loadEvent.getMessageId();
         BigDecimal amount = loadEvent.getAmount();
         BigDecimal currentBalance;
         if (userBalances.containsKey(userId)) {
